@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FacilityRequest;
 use App\Models\Facility;
 use Illuminate\Http\Request;
 
@@ -12,15 +13,23 @@ class FacilityController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'message' => 'Successfully fetched all the data',
+            'data' => Facility::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FacilityRequest $request)
     {
-        //
+        $facility = Facility::create($request->validated());
+
+        return response()->json([
+            'message' => 'Successfully created a new facility',
+            'data' => $facility
+        ]);
     }
 
     /**
@@ -28,15 +37,23 @@ class FacilityController extends Controller
      */
     public function show(Facility $facility)
     {
-        //
+        return response()->json([
+            'message' => 'Successfully fetched the specified the data',
+            'data' => $facility
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Facility $facility)
+    public function update(FacilityRequest $request, Facility $facility)
     {
-        //
+        $facility->update($request->validated());
+
+        return response()->json([
+            'message' => 'Successfully updated a facility',
+            'data' => $facility
+        ]);
     }
 
     /**
@@ -44,6 +61,10 @@ class FacilityController extends Controller
      */
     public function destroy(Facility $facility)
     {
-        //
+        $facility->delete();
+
+        return response()->json([
+            'message' => 'Successfully deleted a facility'
+        ]);
     }
 }
