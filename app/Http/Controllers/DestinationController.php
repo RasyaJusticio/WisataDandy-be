@@ -109,6 +109,7 @@ class DestinationController extends Controller
      */
     public function destroy(Destination $destination)
     {
+        StorageService::delete($destination->image_url);
         $destination->delete();
 
         return response()->json([
