@@ -46,9 +46,14 @@ class FacilityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Facility $facility)
+    public function update(FacilityRequest $request, Facility $facility)
     {
-        //
+        $facility->update($request->validated());
+
+        return response()->json([
+            'message' => 'Successfully updated a facility',
+            'data' => $facility
+        ]);
     }
 
     /**
