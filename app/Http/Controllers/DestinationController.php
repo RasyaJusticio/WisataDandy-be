@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexDestinationRequest;
 use App\Http\Requests\StoreDestinationRequest;
+use App\Http\Requests\UpdateDestinationRequest;
 use App\Models\Destination;
 use App\Services\StorageService;
 use Illuminate\Http\Request;
@@ -85,9 +86,22 @@ class DestinationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Destination $destination)
+    public function update(UpdateDestinationRequest $request, Destination $destination)
     {
-        //
+        $fields = $request->validated();
+        unset($fields['image']);
+
+        if ($request->hasFile('image')) {
+            StorageService::delete($destination->image_url);
+            $fields['image_url'] = StorageService::upload($request->file('image'));
+        }
+
+        $destination->update($fields);
+
+        return response()->json([
+            'message' => 'Successfully updated a destination',
+            'data' => $destination
+        ]);
     }
 
     /**
