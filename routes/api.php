@@ -22,6 +22,17 @@ Route::group(['prefix' => 'v1'], function () {
             Route::delete('{destination}', [DestinationController::class, 'destroy']);
         });
     });
+
+    Route::group(['prefix' => 'facility'], function () {
+        Route::get('', [FacilityController::class, 'index']);
+        Route::get('{facility}', [FacilityController::class, 'show']);
+        
+        Route::group(['middleware' => 'auth:sanctum'], function () {
+            Route::post('', [FacilityController::class, 'store']);
+            Route::post('{facility}', [FacilityController::class, 'update']);
+            Route::delete('{facility}', [FacilityController::class, 'destroy']);
+        });
+    });
 });
 
 Route::get('/user', function (Request $request) {
