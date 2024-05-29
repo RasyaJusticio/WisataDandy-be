@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\FacilityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

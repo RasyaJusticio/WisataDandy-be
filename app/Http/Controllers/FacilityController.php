@@ -12,7 +12,10 @@ class FacilityController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'message' => 'Successfully fetched all the data',
+            'data' => Facility::all()
+        ]);
     }
 
     /**
