@@ -61,6 +61,10 @@ class FacilityController extends Controller
      */
     public function destroy(Facility $facility)
     {
-        //
+        $facility->delete();
+
+        return response()->json([
+            'message' => 'Successfully deleted a facility'
+        ]);
     }
 }
