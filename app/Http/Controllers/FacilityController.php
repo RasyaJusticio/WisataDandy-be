@@ -37,7 +37,10 @@ class FacilityController extends Controller
      */
     public function show(Facility $facility)
     {
-        //
+        return response()->json([
+            'message' => 'Successfully fetched the specified the data',
+            'data' => $facility
+        ]);
     }
 
     /**
