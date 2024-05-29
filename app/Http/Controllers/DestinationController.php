@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\IndexDestinationRequest;
-use App\Http\Requests\StoreDestinationRequest;
-use App\Http\Requests\UpdateDestinationRequest;
+use App\Http\Requests\Destination\IndexDestinationRequest;
+use App\Http\Requests\Destination\StoreDestinationRequest;
+use App\Http\Requests\Destination\UpdateDestinationRequest;
 use App\Models\Destination;
 use App\Services\StorageService;
 use Illuminate\Http\Request;
