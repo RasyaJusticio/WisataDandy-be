@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexDestinationRequest;
+use App\Http\Requests\StoreDestinationRequest;
 use App\Models\Destination;
+use App\Services\StorageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class DestinationController extends Controller
 {
@@ -28,9 +31,36 @@ class DestinationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDestinationRequest $request)
     {
-        //
+        $fields = $request->validated();
+        unset($fields['image']);
+
+        if ($request->hasFile('image')) {
+            $fields['image_url'] = StorageService::upload($request->file('image'));
+        }
+
+        if (!isset($fields['slug'])) {
+            $fields['slug'] = Str::slug($fields['name']);
+
+            if (Destination::where('slug', $fields['slug'])->first()) {
+                return response()->json([
+                    'message' => 'The slug has already been taken.',
+                    'errors' => [
+                        'name' => [
+                            'The generated slug from name has already been taken.'
+                        ]
+                    ]
+                ], 422);
+            }
+        }
+
+        $destination = Destination::create($fields);
+
+        return response()->json([
+            'message' => 'Successfully created a new destination',
+            'data' => $destination
+        ]);
     }
 
     /**
