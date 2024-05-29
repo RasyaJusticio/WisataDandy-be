@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('destinations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->text('address');
             $table->text('image_url')->nullable();

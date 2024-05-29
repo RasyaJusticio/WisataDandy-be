@@ -13,4 +13,14 @@ class OwnedFacility extends Model
         'destination_id',
         'facility_id'
     ];
+
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class);
+    }
+
+    public function facility()
+    {
+        return $this->belongsTo(Facility::class);
+    }
 }
