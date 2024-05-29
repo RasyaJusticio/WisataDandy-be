@@ -19,7 +19,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::group(['middleware' => 'auth:sanctum'], function () {
             Route::post('', [DestinationController::class, 'store']);
             Route::post('{destination}', [DestinationController::class, 'update']);
-            Route::post('{destination}', [DestinationController::class, 'destroy']);
+            Route::delete('{destination}', [DestinationController::class, 'destroy']);
         });
     });
 });
