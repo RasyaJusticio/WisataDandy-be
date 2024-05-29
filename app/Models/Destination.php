@@ -16,4 +16,9 @@ class Destination extends Model
         'address',
         'image_url'
     ];
+
+    public function facilities()
+    {
+        return $this->hasMany(OwnedFacility::class);
+    }
 }

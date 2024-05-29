@@ -23,7 +23,7 @@ class DestinationController extends Controller
         $destinations = Destination::paginate($fields['per_page'], ['*'], 'page', $fields['page']);
 
         return response()->json([
-            'message' => 'Successfully fetched destinations data',
+            'message' => 'Successfully fetched the specified data',
             ...collect($destinations)->toArray()
         ]);
     }
@@ -68,7 +68,18 @@ class DestinationController extends Controller
      */
     public function show(Destination $destination)
     {
-        //
+        $destination->load('facilities.facility');
+        $destination->facilities = $destination->facilities->transform(function ($facility) {
+            return [
+                'id' => $facility->facility->id,
+                'name' => $facility->facility->name
+            ];
+        });
+
+        return response()->json([
+            'message' => 'Successfully fetched the specified data',
+            'data' => $destination
+        ]);
     }
 
     /**
