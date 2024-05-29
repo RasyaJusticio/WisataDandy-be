@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FacilityRequest;
 use App\Models\Facility;
 use Illuminate\Http\Request;
 
@@ -21,9 +22,14 @@ class FacilityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FacilityRequest $request)
     {
-        //
+        $facility = Facility::create($request->validated());
+
+        return response()->json([
+            'message' => 'Successfully created a new facility',
+            'data' => $facility
+        ]);
     }
 
     /**
