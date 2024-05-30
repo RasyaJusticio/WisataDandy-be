@@ -7,7 +7,6 @@ use App\Http\Requests\Destination\StoreDestinationRequest;
 use App\Http\Requests\Destination\UpdateDestinationRequest;
 use App\Models\Destination;
 use App\Services\StorageService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class DestinationController extends Controller

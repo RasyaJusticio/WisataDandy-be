@@ -2,48 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OwnedFacility;
-use Illuminate\Http\Request;
+use App\Http\Requests\ManageFacilityRequest;
+use App\Models\Destination;
+use App\Services\HandleFacilityService;
+use App\Services\StorageService;
 
 class OwnedFacilityController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function add(ManageFacilityRequest $request, Destination $destination)
     {
-        //
+        $facilities_id = $request->validated()['facilities'];
+
+        foreach ($facilities_id as $facility_id) {
+            StorageService::delete("");
+            $result = HandleFacilityService::append_facility($destination->id, $facility_id);
+            
+            if (!$result) {
+                return response()->json([
+                    'message' => 'ID: ' . $facility_id . ' is not a valid facility id'
+                ], 422);
+            }
+        }
+
+        return response()->json([
+            'message' => 'Successfully added facilities to a destination'
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function remove(ManageFacilityRequest $request, Destination $destination)
     {
-        //
-    }
+        $facilities_id = $request->validated()['facilities'];
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(OwnedFacility $ownedFacility)
-    {
-        //
-    }
+        foreach ($facilities_id as $facility_id) {
+            $result = HandleFacilityService::detach_facility($destination->id, $facility_id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, OwnedFacility $ownedFacility)
-    {
-        //
-    }
+            if (!$result) {
+                return response()->json([
+                    'message' => 'ID: ' . $facility_id . ' is not a valid facility id'
+                ], 422);
+            }
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(OwnedFacility $ownedFacility)
-    {
-        //
+        return response()->json([
+            'message' => 'Successfully removed facilities to a destination'
+        ]);
     }
 }

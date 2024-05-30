@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\OwnedFacilityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,18 @@ Route::group(['prefix' => 'v1'], function () {
                     ], 404);
                 });
             Route::delete('{destination}', [DestinationController::class, 'destroy'])
+                ->missing(function () {
+                    return response()->json([
+                        'message' => 'The requested destination is not found'
+                    ], 404);
+                });
+            Route::post('{destination}/facility/add', [OwnedFacilityController::class, 'add'])
+                ->missing(function () {
+                    return response()->json([
+                        'message' => 'The requested destination is not found'
+                    ], 404);
+                });
+            Route::post('{destination}/facility/remove', [OwnedFacilityController::class, 'remove'])
                 ->missing(function () {
                     return response()->json([
                         'message' => 'The requested destination is not found'
